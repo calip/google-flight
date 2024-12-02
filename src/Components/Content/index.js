@@ -70,8 +70,7 @@ const Content = () => {
       return
     }
     const queryParams = objectToQueryString(reservation)
-    console.log(queryParams)
-    // getFlights(queryParams)
+    getFlights(queryParams)
   }
 
   return (
