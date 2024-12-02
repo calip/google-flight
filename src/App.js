@@ -1,7 +1,17 @@
 import logo from './logo.svg';
 import './App.css';
+import { useEffect } from 'react';
+import Service from './Service/Api';
 
 function App() {
+  useEffect(() => {
+    setLoading(true);
+    Service.getData().then(result => 
+      {
+        console.log(result)
+        setLoading(false)
+      });
+  })
   return (
     <div className="App">
       <header className="App-header">
