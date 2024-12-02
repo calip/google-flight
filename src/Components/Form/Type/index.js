@@ -5,8 +5,9 @@ import {
   MenuItem, 
   Typography 
 } from "@mui/material";
+import SyncAltIcon from '@mui/icons-material/SyncAlt'
 
-const FormSelect = ({ setData, defaultData, name, icon }) => {
+const FormType = ({ setData, defaultData, name }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [type, setType] = useState(null)
 
@@ -38,7 +39,7 @@ const FormSelect = ({ setData, defaultData, name, icon }) => {
     <>
       <Button
         aria-describedby={id} 
-        startIcon={!! icon ? icon : ''} 
+        startIcon={<SyncAltIcon />} 
         variant="contained" 
         onClick={handleClick}>
         <Typography textAlign="center">
@@ -64,4 +65,4 @@ const FormSelect = ({ setData, defaultData, name, icon }) => {
   )
 }
 
-export default FormSelect
+export default FormType

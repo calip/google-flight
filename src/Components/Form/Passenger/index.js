@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react"
 import { FLIGHT_PASSENGER } from '../../../Constant'
+import { FlightContext } from "../../../Contexts/FlightProvider"
 import { 
   Popover, 
   Stack, 
@@ -12,7 +13,8 @@ import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
 import PersonIcon from '@mui/icons-material/Person'
 
-const FormPassenger = ({ setData, name }) => {
+const FormPassenger = () => {
+  const { setReservation } = useContext(FlightContext)
   const [anchorEl, setAnchorEl] = useState(null);
   const [passenger, setPassenger] = useState(FLIGHT_PASSENGER)
   const [total, setTotal] = useState(0)
@@ -48,9 +50,16 @@ const FormPassenger = ({ setData, name }) => {
     if (!! passenger) {
       const sum = Object.keys(passenger).map(item => passenger[item])
         .reduce((prev, next) => prev + next)
+        
 
       setTotal(sum)
-      setData(passenger)
+      
+      setReservation(prevState => ({
+        ...prevState,
+        ['adults']: passenger['adults'],
+        ['childrens']: passenger['childrens'],
+        ['infants']: passenger['infants']
+      }))
     }
   }, [passenger])
 

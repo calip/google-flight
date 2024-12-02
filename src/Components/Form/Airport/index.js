@@ -1,21 +1,23 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { 
   Autocomplete,
   CircularProgress, 
   TextField,
 } from "@mui/material";
 import Service from "../../../Service/Api";
+import { FlightContext } from "../../../Contexts/FlightProvider";
 
-const API_URL = 'https://sky-scrapper.p.rapidapi.com/api/v1/flights/searchAirport?query='
+const ENDPOINT = 'searchAirport'
 
-const FormAirport = ({ title, setData, name }) => {
+const FormAirport = ({ title, name }) => {
+  const { setReservation } = useContext(FlightContext)
   const [options, setOptions] = useState([])
   const [loading, setLoading] = useState(false)
 
   const getAirports = (searchTerm) => {
     setLoading(true)
 
-    Service.getData(`${API_URL}${searchTerm}`).then(result => {
+    Service.getData(`${ENDPOINT}?query=${searchTerm}`).then(result => {
       setOptions(result.data);
       setLoading(false)
     })
@@ -30,7 +32,16 @@ const FormAirport = ({ title, setData, name }) => {
   };
 
   const onSelectedChange = (event, value) => {
-    setData(value)
+    const skyId = name === 'flight-origin' 
+      ? 'originSkyId' : 'destinationSkyId'
+    const entityId = name === 'flight-origin' 
+      ? 'originEntityId' : 'destinationEntityId'
+    
+    setReservation(prevState => ({
+      ...prevState,
+      [skyId]: value.skyId,
+      [entityId]: value.entityId
+    }))
   }
   
   return (
