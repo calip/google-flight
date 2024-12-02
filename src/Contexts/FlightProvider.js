@@ -1,18 +1,35 @@
-import { createContext, useState } from "react";
+import { createContext, useState } from "react"
 
-export const FlightContext = createContext();
+export const FlightContext = createContext()
 
 export const FlightProvider = ({ children }) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [flights, setFlights] = useState([]);
+  const [mode, setMode] = useState("light");
+  const [flightData, setFlightData] = useState([])
+  const [reservation, setReservation] = useState({
+    originSkyId: null,
+    destinationSkyId: null,
+    originEntityId: null,
+    destinationEntityId: null,
+    cabinClass: null,
+    adults: 1,
+    sortBy: 'best',
+    currency: 'USD',
+    market: 'en-US',
+    countryCode: 'US',
+    date: null
+  })
 
   return (
     <FlightContext.Provider 
-      value={{ 
-        isLoading,
-        flights 
+      value={{
+        mode,
+        setMode,
+        reservation,
+        setReservation,
+        flightData,
+        setFlightData,
       }}>
       {children}
     </FlightContext.Provider>
-  );
-};
+  )
+}
