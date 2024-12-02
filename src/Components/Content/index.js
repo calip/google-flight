@@ -7,6 +7,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import FormPassenger from '../Form/Passenger'
 import { FLIGHT_TYPE, FLIGHT_CLASS } from '../../Constant'
 import FormSelect from '../Form/Select'
+import FormAirport from '../Form/Airport'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -65,65 +66,13 @@ const Content = () => {
             direction={{ xs: 'column', sm: 'row' }}
             spacing={{ xs: 1, sm: 2, md: 4 }}>
             <FormControl fullWidth>
-              <Autocomplete
-                id="combo-box-demo"
-                noOptionsText={"Type something..."}
-                options={[]}
-                loading={false}
-                onChange={() => {}}
-                onInputChange={() => {}}
-                isOptionEqualToValue={(option, value) => option.presentation.suggestionTitle === value.presentation.suggestionTitle}
-                getOptionLabel={(option) => option}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label={"title"}
-                    slotProps={{
-                      input: {
-                        ...params.InputProps,
-                        endAdornment: (
-                          <>
-                            {loading ? <CircularProgress color="inherit" size={20} /> : null}
-                            {params.InputProps.endAdornment}
-                          </>
-                        ),
-                      },
-                    }}
-                  />
-                )}
-              />
+              <FormAirport setData={() => {}} title="Origin" name="origin-dropdown" />
             </FormControl>
             <Typography sx={{ textAlign: 'center'}}>
               <SyncAltIcon sx={{ height: '100%' }} fontSize="inherit" />
             </Typography>
             <FormControl fullWidth>
-              <Autocomplete
-                id="combo-box-demo"
-                noOptionsText={"Type something..."}
-                options={[]}
-                loading={false}
-                onChange={() => {}}
-                onInputChange={() => {}}
-                isOptionEqualToValue={(option, value) => option.presentation.suggestionTitle === value.presentation.suggestionTitle}
-                getOptionLabel={(option) => option}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label={"title"}
-                    slotProps={{
-                      input: {
-                        ...params.InputProps,
-                        endAdornment: (
-                          <>
-                            {loading ? <CircularProgress color="inherit" size={20} /> : null}
-                            {params.InputProps.endAdornment}
-                          </>
-                        ),
-                      },
-                    }}
-                  />
-                )}
-              />
+              <FormAirport setData={() => {}} title="Destination" name="destination-dropdown" />
             </FormControl>
             <FormControl fullWidth>
               <TextField name="flight-date" id="flight-date" type="date" label="Depart" variant="outlined" />
