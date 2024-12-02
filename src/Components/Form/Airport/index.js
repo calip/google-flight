@@ -39,8 +39,8 @@ const FormAirport = ({ title, name }) => {
     
     setReservation(prevState => ({
       ...prevState,
-      [skyId]: value.skyId,
-      [entityId]: value.entityId
+      [skyId]: value ? value.skyId : null,
+      [entityId]: value ? value.entityId : null
     }))
   }
   

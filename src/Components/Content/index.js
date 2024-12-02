@@ -52,21 +52,28 @@ const Content = () => {
     })
   }
 
+  const clearFlightData = () => {
+    setFlightData([])
+  }
   const handleSearch = () => {
     if(reservation.originSkyId === null && reservation.originEntityId === null ) {
       console.log('error')
+      clearFlightData()
       return
     }
     if(reservation.destinationSkyId === null || reservation.destinationEntityId === null ) {
       console.log('error')
+      clearFlightData()
       return
     }
     if(reservation.cabinClass === null ) {
       console.log('error')
+      clearFlightData()
       return
     }
     if(reservation.date === null ) {
       console.log('error')
+      clearFlightData()
       return
     }
     const queryParams = objectToQueryString(reservation)
