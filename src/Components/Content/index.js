@@ -1,14 +1,12 @@
-import { Accordion, AccordionSummary, AppBar, Autocomplete, Avatar, Box, Button, CircularProgress, FormControl, ListItem, ListItemAvatar, ListItemText, Menu, MenuItem, Paper, Stack, TextField, Toolbar, Typography } from '@mui/material'
+import { Accordion, AccordionSummary, AppBar, Autocomplete, Avatar, Box, Button, CircularProgress, Container, FormControl, ListItem, ListItemAvatar, ListItemText, Menu, MenuItem, Paper, Stack, TextField, Toolbar, Typography } from '@mui/material'
 import makeStyles from '@mui/styles/makeStyles'
 import { useEffect, useState } from 'react'
 import SearchIcon from '@mui/icons-material/Search'
 import SyncAltIcon from '@mui/icons-material/SyncAlt'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-
-const FLIGHT_TYPE = {
-  TYPE_1: "One Way",
-  TYPE_2: "Round Trip",
-}
+import FormPassenger from '../Form/Passenger'
+import { FLIGHT_TYPE, FLIGHT_CLASS } from '../../Constant'
+import FormSelect from '../Form/Select'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,30 +22,16 @@ const useStyles = makeStyles((theme) => ({
       borderColor: theme.palette.primary.borderColor,
     })
   },
+  appContainer: {
+    maxWidth: 1024, 
+    margin: 'auto'
+  }
 }))
 
 const Content = () => {
   const classes = useStyles()
-  const [anchorEl, setAnchorEl] = useState(null)
-  const [type, setType] = useState('TYPE_1')
   const [loading, setLoading] = useState(false)
 
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-menu' : undefined;
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = (value) => {
-    setType(value)
-    setAnchorEl(null);
-  }
-
-  useEffect(() => {
-    // setData(type)
-    console.log(type)
-  }, [type])
 
   return (
     <main className={classes.root}>
@@ -59,69 +43,22 @@ const Content = () => {
           Flights
         </Box>
       </Box>
-      <Box sx={{ maxWidth: 1024, margin: 'auto' }} spacing={2}>
+      <Box 
+        className={classes.appContainer} 
+        spacing={2}>
         <Paper sx={{ padding: 2 }}>
-          <Stack sx={{ 
-            marginBottom: 1,
-            display: 'inline-block',
-            marginTop: 0,
-            maxWidth: '100%'
-          }}>
-            <FormControl variant="standard">
-              <Button aria-describedby={id} variant="contained" onClick={handleClick} >
-                <Typography textAlign="center">{FLIGHT_TYPE[type]}</Typography>
-              </Button>
-              <Menu
-                id={id}
-                anchorEl={anchorEl}
-                keepMounted
-                open={open}
-                onClose={handleClose}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
-                }}
-              >
-                { Object.keys(FLIGHT_TYPE).map((type) => (
-                  <MenuItem key={type} onClick={() => handleClose(type)}>{FLIGHT_TYPE[type]}</MenuItem>
-                ))}
-              </Menu>
+          <Stack 
+            direction="row" 
+            spacing={2} 
+            sx={{ marginBottom: 1 }}>
+            <FormControl variant="standard" sx={{ m: 1 }}>
+              <FormSelect setData={() => {}} defaultData={FLIGHT_TYPE} name="flight-type" icon={<SyncAltIcon />} />
             </FormControl>
-            <FormControl variant="standard">
-              <Button aria-describedby={id} variant="contained" onClick={handleClick} >
-                <Typography textAlign="center">Total</Typography>
-              </Button>
-              <Menu
-                id={id}
-                anchorEl={anchorEl}
-                keepMounted
-                open={open}
-                onClose={() => {}}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
-                }}
-              >
-                <MenuItem key={type} onClick={() => {}}>Adults</MenuItem>
-              </Menu>
+            <FormControl variant="standard" sx={{ m: 1 }}>
+              <FormPassenger setData={() => {}} />
             </FormControl>
-            <FormControl variant="standard">
-              <Button aria-describedby={id} variant="contained" onClick={handleClick} >
-                <Typography textAlign="center">Class</Typography>
-              </Button>
-              <Menu
-                id={id}
-                anchorEl={anchorEl}
-                keepMounted
-                open={open}
-                onClose={() => {}}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
-                }}
-              >
-                <MenuItem key={type} onClick={() => {}}>Economy</MenuItem>
-              </Menu>
+            <FormControl variant="standard" sx={{ m: 1 }}>
+              <FormSelect setData={() => {}} defaultData={FLIGHT_CLASS} name="flight-class" />
             </FormControl>
           </Stack>
           <Stack 
