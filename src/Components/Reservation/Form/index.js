@@ -5,7 +5,7 @@ import SearchIcon from '@mui/icons-material/Search'
 import FormDepartDate from "../../Form/DepartDate"
 import FormReturnDate from "../../Form/ReturnDate"
 
-const ReservationForm = ({ flightType, searchFn }) => {
+const ReservationForm = ({ flightType }) => {
   return (
     <>
       <Stack 
@@ -28,9 +28,6 @@ const ReservationForm = ({ flightType, searchFn }) => {
             <FormReturnDate />
           </FormControl>
           ) : (<></>)}
-        <Button variant="contained" onClick={searchFn}>
-          <SearchIcon />
-        </Button>
       </Stack>
     </>
   )
