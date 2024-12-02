@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { 
   Button, 
   Menu, 
@@ -8,7 +8,7 @@ import {
 
 const FormSelect = ({ setData, defaultData, name, icon }) => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [type, setType] = useState(Object.keys(defaultData)[0])
+  const [type, setType] = useState(null)
 
   const open = Boolean(anchorEl)
   const id = open ? name : undefined
@@ -21,6 +21,18 @@ const FormSelect = ({ setData, defaultData, name, icon }) => {
     setType(value)
     setAnchorEl(null)
   }
+
+  useEffect(() => {
+    if ( !! defaultData ) {
+      setType(Object.keys(defaultData)[0])
+    }
+  }, [])
+
+  useEffect(() => {
+    if ( !! type ) {
+      setData(type)
+    }
+  }, [type])
 
   return (
     <>

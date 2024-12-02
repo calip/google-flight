@@ -12,7 +12,7 @@ import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
 import PersonIcon from '@mui/icons-material/Person'
 
-const FormPassenger = ({ setData }) => {
+const FormPassenger = ({ setData, name }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [passenger, setPassenger] = useState(FLIGHT_PASSENGER)
   const [total, setTotal] = useState(0)
@@ -28,28 +28,30 @@ const FormPassenger = ({ setData }) => {
     setAnchorEl(null)
   }
 
-  const handleIncrease = (index) => {
-    let data = [...passenger]
+  const handleIncrease = (value) => {
+    let data = { ...passenger }
 
-    data[index]['amount'] += 1
+    data[value] += 1
     setPassenger(data)
   }
 
-  const handleDecrease = (index) => {
-    let data = [...passenger]
+  const handleDecrease = (value) => {
+    let data = { ...passenger }
 
-    if (data[index]['amount'] >= 1) {
-      data[index]['amount'] -= 1
+    if (data[value] >= 1) {
+      data[value] -= 1
       setPassenger(data)
     }
   }
 
   useEffect(() => {
-    const sum = passenger.map(item => item.amount)
-      .reduce((prev, next) => prev + next)
+    if (!! passenger) {
+      const sum = Object.keys(passenger).map(item => passenger[item])
+        .reduce((prev, next) => prev + next)
 
-    setTotal(sum)
-    setData(passenger)
+      setTotal(sum)
+      setData(passenger)
+    }
   }, [passenger])
 
   return (
@@ -73,7 +75,7 @@ const FormPassenger = ({ setData }) => {
           horizontal: 'left',
         }}>
         <Stack>
-          { passenger.map((pax, index) => {
+          { Object.keys(passenger).map((pax, index) => {
             return (
               <Grid
                 container
@@ -81,18 +83,18 @@ const FormPassenger = ({ setData }) => {
                 sx={{ p: 2 }}
                 key={index}>
                 <Grid size={5}>
-                  <Typography>{pax.type}</Typography>
+                  <Typography>{pax}</Typography>
                 </Grid>
                 <Grid>
-                  <IconButton aria-label="delete" size="small" color="error" onClick={() => handleDecrease(index)}>
+                  <IconButton aria-label="delete" size="small" color="error" onClick={() => handleDecrease(pax)}>
                     <RemoveIcon fontSize="inherit" />
                   </IconButton>
                 </Grid>
                 <Grid>
-                  <Typography textAlign="center">{pax.amount}</Typography>
+                  <Typography textAlign="center">{passenger[pax]}</Typography>
                 </Grid>
                 <Grid>
-                  <IconButton aria-label="add" size="small" color="info" onClick={() => handleIncrease(index)}>
+                  <IconButton aria-label="add" size="small" color="info" onClick={() => handleIncrease(pax)}>
                     <AddIcon fontSize="inherit" />
                   </IconButton>
                 </Grid>
