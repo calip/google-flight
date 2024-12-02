@@ -7,6 +7,8 @@ import Reservation from '../Reservation'
 import { objectToQueryString } from '../../Utils'
 import Service from '../../Service/Api'
 import FlightDetail from '../Flight'
+import PageLoader from '../Loader'
+import Placeholder from '../Placeholder'
 
 const ENDPOINT = 'searchFlights'
 
@@ -26,7 +28,8 @@ const useStyles = makeStyles((theme) => ({
   },
   appContainer: {
     maxWidth: 1024, 
-    margin: 'auto'
+    margin: 'auto',
+    marginTop: '100px'
   }
 }))
 
@@ -34,15 +37,11 @@ const Content = () => {
   const { mode, setMode, flightData, setFlightData, reservation } = useContext(FlightContext)
   const classes = useStyles()
   const [flightType, setFlightType] = useState(Object.keys(FLIGHT_TYPE)[0])
-  const [expanded, setExpanded] = useState(false)
   const [loading, setLoading] = useState(false)
-
-  
 
   const handleFlightType = (value) => {
     setFlightType(value);
   }
-
 
   const getFlights = (queryParams) => {
     setLoading(true)
@@ -54,17 +53,25 @@ const Content = () => {
   }
 
   const handleSearch = () => {
-    // if(reservation.originSkyId || reservation.originEntityId) {
-
-    //   return
-    // }
+    if(reservation.originSkyId === null && reservation.originEntityId === null ) {
+      console.log('error')
+      return
+    }
+    if(reservation.destinationSkyId === null || reservation.destinationEntityId === null ) {
+      console.log('error')
+      return
+    }
+    if(reservation.cabinClass === null ) {
+      console.log('error')
+      return
+    }
+    if(reservation.date === null ) {
+      console.log('error')
+      return
+    }
     const queryParams = objectToQueryString(reservation)
     console.log(queryParams)
-    getFlights(queryParams)
-  }
-
-  const handleExpandItem = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
+    // getFlights(queryParams)
   }
 
   return (
@@ -74,11 +81,6 @@ const Content = () => {
           <Switch onChange={() => setMode(mode === "light" ? "dark" : "light")} />
         </Toolbar>
       </AppBar>
-      <Box sx={{ margin: '0 auto 40px', maxWidth: 1248, position: 'relative' }}>
-        <Box sx={{ maxWidth: 1248, overflow: 'hidden', position: 'relative' }}>
-          Flights
-        </Box>
-      </Box>
       <Box 
         className={classes.appContainer} 
         spacing={2}>
@@ -87,15 +89,22 @@ const Content = () => {
             -
         </Typography>
         <Paper elevation={0}>
-          { !! flightData && flightData?.itineraries ? 
+          { loading ? 
             (
-              <FlightDetail data={flightData.itineraries} />
-            ) : 
-            (
-              <Typography variant="h6" gutterBottom>
-                Find flights to anywhere
-              </Typography>) 
-            }
+              <PageLoader />
+            ) : (
+              <>
+                { !! flightData && flightData?.itineraries ?
+                  (
+                    <FlightDetail data={flightData.itineraries} />
+                  ) : 
+                  (
+                    <Placeholder />
+                  ) 
+                } 
+              </>
+            )
+          }
         </Paper>
       </Box>
     </main>

@@ -1,5 +1,5 @@
 import { Accordion, AccordionDetails, AccordionSummary, Avatar, Divider, ListItem, ListItemAvatar, ListItemText, Stack, Typography } from "@mui/material";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { dateFormatter } from "../../Utils";
 
@@ -77,7 +77,7 @@ const FlightDetail = ({ data }) => {
               <Stack>
                 { flight.legs[0].segments.map((segment, segIndex) => {
                   return (
-                    <>
+                    <Fragment key={segIndex}>
                       <ListItem alignItems="flex-start">
                         <ListItemText
                           key={segIndex}
@@ -89,14 +89,23 @@ const FlightDetail = ({ data }) => {
                                 variant="body2"
                                 sx={{ color: 'text.primary', display: 'inline' }}
                               >
-                              asds
+                              {segment.flightNumber}
                               </Typography>
                             </>
                           }
                         />
                       </ListItem>
                       <Divider />
-                    </>
+                      
+                        <Typography
+                          component="span"
+                          variant="body2"
+                          sx={{ paddingRight: 2, paddingLeft: 2, paddingTop: 1, paddingBottom: 1 }}
+                          >
+                          {`${Math.floor(segment.durationInMinutes / 60 )} hr ${segment.durationInMinutes % 60} min ${segment.destination.displayCode}`}
+                        </Typography>
+                      <Divider />
+                    </Fragment>
                   )
                 })}
               </Stack>

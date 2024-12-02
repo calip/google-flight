@@ -34,7 +34,7 @@ const FormAirport = ({ title, name }) => {
   const onSelectedChange = (event, value) => {
     const skyId = name === 'flight-origin' 
       ? 'originSkyId' : 'destinationSkyId'
-    const entityId = name === 'flight-origin' 
+    const entityId = name === 'flight-destination' 
       ? 'originEntityId' : 'destinationEntityId'
     
     setReservation(prevState => ({
@@ -53,7 +53,6 @@ const FormAirport = ({ title, name }) => {
         loading={loading}
         onChange={onSelectedChange}
         onInputChange={onInputChange}
-        isOptionEqualToValue={(option, value) => option.presentation.suggestionTitle === value.presentation.suggestionTitle}
         getOptionLabel={(option) => option.presentation.suggestionTitle}
         renderInput={(params) => (
           <TextField
